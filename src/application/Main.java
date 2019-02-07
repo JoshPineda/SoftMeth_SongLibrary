@@ -15,7 +15,7 @@ public class Main extends Application {
 		Button addB = new Button("Add");
 		Button delB = new Button("Delete");
 		Button editB = new Button("Edit");
-		
+		//test
 		
 		GridPane gridpane = new GridPane();
 		gridpane.add(addB, 0, 0);
