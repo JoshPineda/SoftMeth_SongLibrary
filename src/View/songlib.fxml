@@ -10,7 +10,8 @@
 
 <GridPane xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller= "View.songlib_controller">
-
+	
+	<Text text="Song Library" GridPane.valignment="TOP"  GridPane.ColumnIndex="1"/> 
 	<AnchorPane GridPane.rowIndex="1" GridPane.columnIndex="1"
 		xmlns="http://javafx.com/javafx/8.0.60"
 		xmlns:fx="http://javafx.com/fxml/1"
@@ -25,7 +26,8 @@
 	<Button text="Add" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
 	<Button text="Edit" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 	<Button text="Delete" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-
+	
+	
 	
 </GridPane>
 
