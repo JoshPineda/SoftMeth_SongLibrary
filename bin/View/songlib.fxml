@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ListView?> 
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?> 
+
+<GridPane xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller= "View.songlib_controller">
+
+	<AnchorPane GridPane.rowIndex="1" GridPane.columnIndex="1"
+		xmlns="http://javafx.com/javafx/8.0.60"
+		xmlns:fx="http://javafx.com/fxml/1"
+		>
+		<ListView fx:id="SongView"
+			AnchorPane.topAnchor = "10"
+			AnchorPane.leftAnchor = "10"
+			AnchorPane.rightAnchor = "10"
+			AnchorPane.bottomAnchor = "10"/>
+	</AnchorPane>
+	
+	<Button text="Add" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+	<Button text="Edit" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+	<Button text="Delete" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+
+	
+</GridPane>
+
