@@ -9,7 +9,7 @@
 <?import javafx.geometry.*?> 
 
 <GridPane xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller= "View.songlib_controller">
+	fx:controller= "View.SonglibController">
 	
 	<Text text="Song Library" GridPane.valignment="TOP"  GridPane.ColumnIndex="1"/> 
 	<AnchorPane GridPane.rowIndex="1" GridPane.columnIndex="1"
