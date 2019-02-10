@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<GridPane hgap="10" prefHeight="348.0" prefWidth="474.0" vgap="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.SonglibController">
+<GridPane hgap="10" prefHeight="348.0" prefWidth="474.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.201" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.SonglibController">
 	
 	<Text text="Song Library" GridPane.ColumnIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP" /> 
 	<AnchorPane prefHeight="406.0" prefWidth="322.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
