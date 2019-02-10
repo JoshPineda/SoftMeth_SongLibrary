@@ -32,13 +32,13 @@
 	</AnchorPane>
 	
 	<VBox minWidth="-Infinity" prefHeight="406.0" prefWidth="126.0" spacing="10" GridPane.rowIndex="1">
-		<Button text="Add" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP" />
+		<Button text="Add" fx:id="addButton" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP" onAction="#addSongHandler" />
 		<Button text="Edit" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="TOP" />
    		<Button text="Delete" />
-      <TextField promptText="Song Title" />
-      <TextField promptText="Artist" />
-      <TextField prefHeight="26.0" prefWidth="103.0" promptText="Year (optional)" />
-      <TextField promptText="Album (optional)" />
+      <TextField fx:id="Song_title" promptText="Song Title" />
+      <TextField fx:id="Artist" promptText="Artist" />
+      <TextField fx:id="Year" prefHeight="26.0" prefWidth="103.0" promptText="Year (optional)" />
+      <TextField fx:id="Album" promptText="Album (optional)" />
 	</VBox>
 	
 	

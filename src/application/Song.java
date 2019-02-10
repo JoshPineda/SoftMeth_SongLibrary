@@ -1,5 +1,8 @@
 package application;
-
+/*
+ * Joshua Pineda
+ * John Strauser
+ */
 public class Song {
 
 	private String Name;
@@ -7,6 +10,9 @@ public class Song {
 	private int Year;
 	private String Album;
 	
+	public Song() {
+		super();
+	}
 	public Song(String name, String artist) {
 		setName(name);
 		setArtist(artist);
