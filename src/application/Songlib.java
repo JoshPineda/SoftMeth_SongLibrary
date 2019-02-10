@@ -1,17 +1,18 @@
 package application;
 
+/*
+ * Joshua Pineda
+ * John Strauser
+ */
+
 import View.SonglibController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 
-public class Songlib extends Application{
+public class SongLib extends Application{
 
 	@Override
 	public void start(Stage primaryStage) {
