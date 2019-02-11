@@ -24,13 +24,14 @@ public class SonglibController {
 	@FXML TextField Album;
 
 	private ObservableList<Song> obslist;
+	private int oldIndex = 0;
 	
 	public void start() {
 		obslist = FXCollections.observableArrayList(
 				new Song("Song1","Artist2"),
 				new Song("Song3", "Artist2",2019,"Album2"),
 				new Song("ABC123","1"),
-				new Song("song1","Artist1"),
+				new Song("song1","Artist1",2018,"Album8"),
 				new Song("test","5")
 				);
 		
@@ -41,18 +42,16 @@ public class SonglibController {
 		SongLibrary.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>(){
 			@Override
 			public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
-				System.out.println();
-				System.out.println("oldValue= "+oldValue);
-				System.out.println("newValue= "+newValue);
 				if(obslist.contains(oldValue)){
 					oldValue.setDetail(0);
-					System.out.println("oldDetail= "+oldValue.getDetail());
+					obslist.set(oldIndex, oldValue);
 				}
 				if(obslist.contains(newValue)){
 					newValue.setDetail(1);
-					System.out.println("newDetail= "+newValue.getDetail());
+					obslist.set(SongLibrary.getSelectionModel().getSelectedIndex(), newValue);
 				}
-				obslist.set(SongLibrary.getSelectionModel().getSelectedIndex(), newValue);
+				oldIndex = SongLibrary.getSelectionModel().getSelectedIndex();
+				
 			} 
 		});
 		

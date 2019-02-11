@@ -83,7 +83,6 @@ public class Song {
 	}
 	public void setDetail(int detail){
 		this.detail=detail;
-		System.out.println("detail was changed to "+detail);
 		updateString();
 	}
 	public int getYPresent() {
@@ -99,20 +98,15 @@ public class Song {
 		this.aPresent = aPresent;
 	}
 	public void updateString(){
-		System.out.println("Update string called");
 		outString = Name+" - "+Artist;
 		if(getDetail()==1){
-			System.out.println("adding details");
 			if(getYPresent()==1){
-				System.out.println("added year");
 				outString += " - "+Year;
 			}
 			if(getAPresent()==1){
-				System.out.println("added album");
 				outString += " - "+Album;
 			}
 		}
-		System.out.println("output string = "+outString);
 	}
 	@Override
 	public String toString() {
