@@ -33,7 +33,7 @@ public class SonglibController {
 				new Song("song1","Artist1"),
 				new Song("test","5")
 				);
-		SongLibrary.setItems(obslist);
+		
 		
 		//this sort call might not be necessary
 		sort();
@@ -52,8 +52,11 @@ public class SonglibController {
 					newValue.setDetail(1);
 					System.out.println("newDetail= "+newValue.getDetail());
 				}
+				obslist.set(SongLibrary.getSelectionModel().getSelectedIndex(), newValue);
 			} 
 		});
+		
+		SongLibrary.setItems(obslist);
 		
 		/*SongLibrary.getSelectionModel()
 			.selectedIndexProperty()
