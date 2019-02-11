@@ -35,6 +35,14 @@ public class SonglibController {
 		
 		//this sort call might not be necessary
 		sort();
+		
+		SongLibrary.getSelectionModel().select(0);
+		
+		/*SongLibrary.getSelectionModel()
+			.selectedIndexProperty()
+			.addListener(
+				(obslist)
+				);*/
 	}
 	public void sort(){
 		Comparator<Song> comparator = Comparator.comparing(Song::getNameLower).thenComparing(Song::getArtistLower);
