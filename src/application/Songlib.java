@@ -26,7 +26,7 @@ public class SongLib extends Application{
 			songlibcontroller.start();
 			
 			
-			Scene scene = new Scene(root,400,400);
+			Scene scene = new Scene(root,475,475);
 			
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -39,5 +39,6 @@ public class SongLib extends Application{
 	public static void main(String[] args) {
 		launch(args);
 	}
-
+	
+	
 }
