@@ -57,6 +57,7 @@ public class Song {
 	}
 	public void setArtist(String artist) {
 		this.Artist = artist;
+		
 	}
 	public String getArtistLower(){
 		String temp = Artist;
@@ -68,12 +69,14 @@ public class Song {
 	}
 	public void setYear(int year) {
 		this.Year = year;
+		setYPresent(1);
 	}
 	public String getAlbum() {
 		return Album;
 	}
 	public void setAlbum(String album) {
 		this.Album = album;
+		setAPresent(1);
 	}
 	public int getDetail(){
 		return detail;
