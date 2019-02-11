@@ -18,13 +18,13 @@
 	<AnchorPane prefHeight="406.0" prefWidth="281.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
    	<TableView fx:id="SongLibrary" layoutY="-1.0" prefHeight="406.0" prefWidth="319.0">
    		<columns>
-   			<TableColumn text="Song Title">
+   			<TableColumn text="Song Title" fx:id="tableTitle">
 			</TableColumn>
-   			<TableColumn text="Artist">
+   			<TableColumn text="Artist" fx:id="tableArtist">
 			</TableColumn>
-   			<TableColumn text="Year">
+   			<TableColumn text="Year" fx:id="tableYear">
 			</TableColumn>
-   			<TableColumn text="Album">
+   			<TableColumn text="Album" fx:id="tableAlbum">
 			</TableColumn>
    		</columns>
    	</TableView>

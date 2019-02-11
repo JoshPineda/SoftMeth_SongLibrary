@@ -34,11 +34,21 @@ public class Song {
 	public void setName(String name) {
 		this.Name = name;
 	}
+	public String getNameLower(){
+		String temp = Name;
+		temp = temp.toLowerCase();
+		return temp;
+	}
 	public String getArtist() {
 		return Artist;
 	}
 	public void setArtist(String artist) {
 		this.Artist = artist;
+	}
+	public String getArtistLower(){
+		String temp = Artist;
+		temp = temp.toLowerCase();
+		return temp;
 	}
 	public int getYear() {
 		return Year;
