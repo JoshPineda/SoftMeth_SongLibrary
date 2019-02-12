@@ -86,7 +86,8 @@ public class SonglibController {
 				//make sure only digits are in Year
 				try{
 					Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
-					obslist.add(newsong);
+					if(confirmAction(1,Song_title.getText(),Artist.getText()))
+						obslist.add(newsong);
 				}catch(NumberFormatException e){
 					showError(1,Song_title.getText(),Artist.getText());
 				}catch(Exception e){
