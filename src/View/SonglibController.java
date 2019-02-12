@@ -5,13 +5,18 @@ package View;
  */
 import java.awt.event.ActionEvent;
 import java.util.Comparator;
+import java.util.Optional;
+
 import application.Song;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
@@ -93,19 +98,22 @@ public class SonglibController {
 			}else if(Year.getText().equals("") && Album.getText().equals("")){
 				System.out.println("Song and Artist filled");
 				Song newsong = new Song(Song_title.getText(),Artist.getText());
-				obslist.add(newsong);
+				if(confirmAction(1))
+					obslist.add(newsong);
 			//all but year are filled
 			}else if(Year.getText().equals("")){
 				System.out.println("All but year are filled");
 				Song newsong = new Song(Song_title.getText(),Artist.getText(),Album.getText());
-				obslist.add(newsong);
+				if(confirmAction(1))
+					obslist.add(newsong);
 			//all but album are filled
 			}else{
 				System.out.println("All but Album are filled");
 				//make sure only digits are in Year
 				try{
 					Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()));
-					obslist.add(newsong);
+					if(confirmAction(1))
+						obslist.add(newsong);
 				}catch(NumberFormatException e){
 					//exception for non integer being passed in year
 					//To-do
@@ -135,5 +143,48 @@ public class SonglibController {
 		//sort list at the end
 		//this sort might not be necessary
 		sort();
+	}
+	
+	/*Raises a dialog box
+	 * Action Types: (Hardcoded into confirmAction)
+	 * 1) Add Song
+	 * 2) Edit Song
+	 * 3) Delete Song
+	 * */
+	public boolean confirmAction(int actionType) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation");
+		boolean conf = false;
+		switch(actionType) {
+			//Add
+			case 1:
+				alert.setHeaderText("You are about to add a song");
+				alert.setContentText("Are you sure?");
+				Optional<ButtonType> resultA = alert.showAndWait();
+				if (resultA.get() == ButtonType.OK){
+					conf = true;
+				}
+				break;
+			//Edit
+			case 2:
+				alert.setHeaderText("You are about to edit a song");
+				alert.setContentText("Are you sure?");
+				Optional<ButtonType> resultE = alert.showAndWait();
+				if (resultE.get() == ButtonType.OK){
+					conf = true;
+				} 
+				break;
+			//Delete
+			case 3:
+				alert.setHeaderText("You are about to delete a song");
+				alert.setContentText("Are you sure?");
+				Optional<ButtonType> resultD = alert.showAndWait();
+				if (resultD.get() == ButtonType.OK){
+					conf = true;
+				}
+				break;
+		}
+		return conf;
+
 	}
 }
