@@ -77,9 +77,16 @@ public class SonglibController {
 			if(!Year.getText().equals("") && !Album.getText().equals("")){
 				System.out.println("All are filled");
 				//make sure only digits are in Year
-				//TO-DO
-				Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
-				obslist.add(newsong);
+				try{
+					Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
+					obslist.add(newsong);
+				}catch(NumberFormatException e){
+					//exception for non integer being passed in year
+					//To-do
+				}catch(Exception e){
+					//other unknown exceptions
+					//To-do
+				}
 			//if only Song and artist are filled
 			}else if(Year.getText().equals("") && Album.getText().equals("")){
 				System.out.println("Song and Artist filled");
@@ -94,9 +101,16 @@ public class SonglibController {
 			}else{
 				System.out.println("All but Album are filled");
 				//make sure only digits are in Year
-				//TO-DO
-				Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()));
-				obslist.add(newsong);
+				try{
+					Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()));
+					obslist.add(newsong);
+				}catch(NumberFormatException e){
+					//exception for non integer being passed in year
+					//To-do
+				}catch(Exception e){
+					//other unknown exceptions
+					//To-do
+				}
 			}
 		}
 		
