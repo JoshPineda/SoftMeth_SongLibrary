@@ -18,6 +18,8 @@ import javafx.scene.control.TextField;
 public class SonglibController {
 	@FXML ListView<Song> SongLibrary;
 	@FXML Button addButton;
+	@FXML Button editButton;
+	@FXML Button deleteButton;
 	@FXML TextField Song_title;
 	@FXML TextField Artist;
 	@FXML TextField Year;
@@ -30,9 +32,9 @@ public class SonglibController {
 		obslist = FXCollections.observableArrayList(
 				new Song("Song1","Artist2"),
 				new Song("Song3", "Artist2",2019,"Album2"),
-				new Song("ABC123","1"),
+				new Song("ABC123","1","Artist"),
 				new Song("song1","Artist1",2018,"Album8"),
-				new Song("test","5")
+				new Song("test","5","2012")
 				);
 		
 		
@@ -126,7 +128,9 @@ public class SonglibController {
 	}
 	public void deleteSongHandler(){
 		
-		
+		int selectedIndex = SongLibrary.getSelectionModel().getSelectedIndex();
+		//unsupportedOperationException occurs here
+		obslist.remove(selectedIndex);
 		
 		//sort list at the end
 		//this sort might not be necessary
