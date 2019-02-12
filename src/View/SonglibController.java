@@ -88,8 +88,7 @@ public class SonglibController {
 					Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
 					obslist.add(newsong);
 				}catch(NumberFormatException e){
-					//exception for non integer being passed in year
-					//To-do
+					showError(1,Song_title.getText(),Artist.getText());
 				}catch(Exception e){
 					//other unknown exceptions
 					//To-do
@@ -115,8 +114,7 @@ public class SonglibController {
 					if(confirmAction(1,Song_title.getText(),Artist.getText()))
 						obslist.add(newsong);
 				}catch(NumberFormatException e){
-					//exception for non integer being passed in year
-					//To-do
+					showError(1,Song_title.getText(),Artist.getText());
 				}catch(Exception e){
 					//other unknown exceptions
 					//To-do
@@ -186,5 +184,21 @@ public class SonglibController {
 		}
 		return conf;
 
+	}
+	
+	/* Raises an error dialog box
+	 * Error Types:
+	 * 1) Numberformat Exception:- Year is not an integer
+	 * */
+	
+	public void showError(int errorType,String Song_title, String artist) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error");
+		switch(errorType) {
+			case 1:
+				alert.setHeaderText("Error, Song \"" + Song_title + "\" by " + artist + " cannot have a year that is not an integer");
+				break;
+			
+		}
 	}
 }
