@@ -77,8 +77,7 @@ public class SonglibController {
 	public void addSongHandler() {
 
 		if (Song_title.getText().equals("") || Artist.getText().equals("")) {
-			//Send error dialog box
-			System.out.println("Title or Artist not entered error");
+			showError(2,Song_title.getText(),Artist.getText());
 		}else{
 			//if all 4 dialog boxes are filled
 			if(!Year.getText().equals("") && !Album.getText().equals("")){
@@ -190,15 +189,23 @@ public class SonglibController {
 	/* Raises an error dialog box
 	 * Error Types:
 	 * 1) Numberformat Exception:- Year is not an integer
+	 * 2) Title or artist not entered
 	 * */
 	
 	public void showError(int errorType,String Song_title, String artist) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Error");
 		switch(errorType) {
+			
 			case 1:
-				alert.setHeaderText("Error, Song \"" + Song_title + "\" by " + artist + " cannot have a year that is not an integer");
+				alert.setHeaderText("There was an error!");
+				alert.setContentText("Error, Song \"" + Song_title + "\" by " + artist + " cannot have a year that is not an integer");
+				alert.showAndWait();
 				break;
+			case 2:
+				alert.setHeaderText("There was an error!");
+				alert.setContentText("Title and artist fields must be filled in");
+				alert.showAndWait();
 			
 		}
 	}
