@@ -98,13 +98,13 @@ public class SonglibController {
 			}else if(Year.getText().equals("") && Album.getText().equals("")){
 				System.out.println("Song and Artist filled");
 				Song newsong = new Song(Song_title.getText(),Artist.getText());
-				if(confirmAction(1))
+				if(confirmAction(1,Song_title.getText(),Artist.getText()))
 					obslist.add(newsong);
 			//all but year are filled
 			}else if(Year.getText().equals("")){
 				System.out.println("All but year are filled");
 				Song newsong = new Song(Song_title.getText(),Artist.getText(),Album.getText());
-				if(confirmAction(1))
+				if(confirmAction(1,Song_title.getText(),Artist.getText()))
 					obslist.add(newsong);
 			//all but album are filled
 			}else{
@@ -112,7 +112,7 @@ public class SonglibController {
 				//make sure only digits are in Year
 				try{
 					Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()));
-					if(confirmAction(1))
+					if(confirmAction(1,Song_title.getText(),Artist.getText()))
 						obslist.add(newsong);
 				}catch(NumberFormatException e){
 					//exception for non integer being passed in year
@@ -151,14 +151,14 @@ public class SonglibController {
 	 * 2) Edit Song
 	 * 3) Delete Song
 	 * */
-	public boolean confirmAction(int actionType) {
+	public boolean confirmAction(int actionType, String Song_title, String artist) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Confirmation");
 		boolean conf = false;
 		switch(actionType) {
 			//Add
 			case 1:
-				alert.setHeaderText("You are about to add a song");
+				alert.setHeaderText("You are about to add " + Song_title + " by " + artist);
 				alert.setContentText("Are you sure?");
 				Optional<ButtonType> resultA = alert.showAndWait();
 				if (resultA.get() == ButtonType.OK){
@@ -167,7 +167,7 @@ public class SonglibController {
 				break;
 			//Edit
 			case 2:
-				alert.setHeaderText("You are about to edit a song");
+				alert.setHeaderText("You are about to edit " + Song_title + " by " + artist);
 				alert.setContentText("Are you sure?");
 				Optional<ButtonType> resultE = alert.showAndWait();
 				if (resultE.get() == ButtonType.OK){
@@ -176,7 +176,7 @@ public class SonglibController {
 				break;
 			//Delete
 			case 3:
-				alert.setHeaderText("You are about to delete a song");
+				alert.setHeaderText("You are about to delete " + Song_title + " by " + artist);
 				alert.setContentText("Are you sure?");
 				Optional<ButtonType> resultD = alert.showAndWait();
 				if (resultD.get() == ButtonType.OK){
