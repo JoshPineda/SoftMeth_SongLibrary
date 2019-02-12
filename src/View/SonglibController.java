@@ -69,12 +69,36 @@ public class SonglibController {
 	}
 	public void addSongHandler() {
 
-		if (Song_title.getText() == null || Artist.getText() == null) {
+		if (Song_title.getText().equals("") || Artist.getText().equals("")) {
 			//Send error dialog box
+			System.out.println("Title or Artist not entered error");
+		}else{
+			//if all 4 dialog boxes are filled
+			if(!Year.getText().equals("") && !Album.getText().equals("")){
+				System.out.println("All are filled");
+				//make sure only digits are in Year
+				//TO-DO
+				Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
+				obslist.add(newsong);
+			//if only Song and artist are filled
+			}else if(Year.getText().equals("") && Album.getText().equals("")){
+				System.out.println("Song and Artist filled");
+				Song newsong = new Song(Song_title.getText(),Artist.getText());
+				obslist.add(newsong);
+			//all but year are filled
+			}else if(Year.getText().equals("")){
+				System.out.println("All but year are filled");
+				Song newsong = new Song(Song_title.getText(),Artist.getText(),Album.getText());
+				obslist.add(newsong);
+			//all but album are filled
+			}else{
+				System.out.println("All but Album are filled");
+				//make sure only digits are in Year
+				//TO-DO
+				Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()));
+				obslist.add(newsong);
+			}
 		}
-		Song newsong = new Song(Song_title.getText(),Artist.getText());
-		
-		obslist.add(newsong);
 		
 		//sort list at the end
 		sort();

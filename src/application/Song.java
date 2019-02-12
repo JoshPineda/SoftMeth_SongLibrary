@@ -17,8 +17,8 @@ public class Song {
 	//int used to determine if detail is to be added to the toString
 	private int detail = 0;
 	//int used to determine if Year and Artist are not default
-	private int aPresent;
-	private int yPresent;
+	private int aPresent = 0;
+	private int yPresent = 0;
 	//string for toString
 	private String outString;
 	
@@ -30,6 +30,20 @@ public class Song {
 		setArtist(artist);
 		setAPresent(0);
 		setYPresent(0);
+		updateString();
+	}
+	public Song(String name, String artist, int year){
+		setName(name);
+		setArtist(artist);
+		setYear(year);
+		setYPresent(1);
+		updateString();
+	}
+	public Song(String name, String artist, String album){
+		setName(name);
+		setArtist(artist);
+		setAlbum(album);
+		setAPresent(1);
 		updateString();
 	}
 	public Song(String name, String artist, int year, String album) {
