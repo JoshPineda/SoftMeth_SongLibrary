@@ -4,8 +4,12 @@ package View;
  * John Strauser
  */
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.StringTokenizer;
 
 import application.Song;
 import javafx.application.Platform;
@@ -37,12 +41,54 @@ public class SonglibController {
 	
 	public void start() {
 		obslist = FXCollections.observableArrayList(
+				/*
 				new Song("Song1","Artist2"),
 				new Song("Song3", "Artist2",2019,"Album2"),
-				new Song("ABC123","1","Artist"),
+				new Song("ABC123","1","Arbum"),
 				new Song("song1","Artist1",2018,"Album8"),
-				new Song("test","5","2012")
+				new Song("test","5","alb")*/
 				);
+		//load from file
+		try{
+			File saveFile = new File("saveFile.txt");
+			BufferedReader br = new BufferedReader(new FileReader(saveFile));
+			for(String line; (line = br.readLine()) != null; ){
+				StringTokenizer tokens = new StringTokenizer(line, "-");
+				//System.out.println("Name= "+tokens.nextToken());
+				String name = tokens.nextToken();
+				//System.out.println("Artist= "+tokens.nextToken());
+				String artist = tokens.nextToken();
+				//System.out.println("Year= "+tokens.nextToken());
+				String yearString = tokens.nextToken();
+				int year = -1;
+				if(!yearString.equals("none")){
+					try{
+						year = Integer.parseInt(yearString);
+					}catch(Exception e){
+						//handle parsing error
+					}
+				}
+				//System.out.println("Album= "+tokens.nextToken());
+				String album = tokens.nextToken();
+				
+				//build the song class and add to obslist
+				Song entry;
+				if(year == -1 && album.equals("")){
+					entry = new Song(name,artist);
+				}else if(year == -1 && !album.equals("")){
+					entry = new Song(name,artist,album);
+				}else if(year != -1 && album.equals("")){
+					entry = new Song(name,artist,year);
+				}else{
+					entry = new Song(name,artist,year,album);
+				}
+				
+				obslist.add(entry);
+			}
+		}catch(Exception e){
+			System.out.println("Exception thrown");
+		}
+		
 		
 		sort();
 		
