@@ -58,18 +58,6 @@ public class SonglibController {
 				}
 				//refresh list view
 				SongLibrary.refresh();
-				
-				//set the text fields to newValue
-				String name = newValue.getName();
-				Song_title.setText(name);
-				Artist.setText(newValue.getArtist());
-				int year = newValue.getYear();
-				if(year != -1) {
-					Year.setText(String.valueOf(year));
-				}else {
-					Year.setText("");
-				}
-				Album.setText(newValue.getAlbum());
 			} 
 		});
 		
@@ -131,17 +119,20 @@ public class SonglibController {
 		sort();
 	}
 	public void editSongHandler(){
-		
+
 		int selectedIndex = SongLibrary.getSelectionModel().getSelectedIndex();
 		if(selectedIndex == -1) {
 			//error dialog "no selection made yet"
 		}else{
 			//do the edit
 			if (Song_title.getText().equals("") || Artist.getText().equals("")) {
+				//error, value to change to are not filled
+				//need new error code
 				showError(2,Song_title.getText(),Artist.getText());
 			}else{
 				try{
 					int year = Integer.parseInt(Year.getText());
+					//need new confirmation dialog for confirmation of change here
 					if(confirmAction(1,Song_title.getText(),Artist.getText())) {
 						obslist.get(selectedIndex).setName(Song_title.getText());
 						obslist.get(selectedIndex).setArtist(Artist.getText());
@@ -150,11 +141,11 @@ public class SonglibController {
 					}
 				}catch(NumberFormatException e){
 					if(Year.getText().equals("")) {
+						//need new confirmation dialog for confirmation of change here
 						if(confirmAction(1,Song_title.getText(),Artist.getText())) {
 							obslist.get(selectedIndex).setName(Song_title.getText());
 							obslist.get(selectedIndex).setArtist(Artist.getText());
 							obslist.get(selectedIndex).setYear(-1);
-							//System.out.println(Album.getText());
 							obslist.get(selectedIndex).setAlbum(Album.getText());
 						}
 					}else {
@@ -166,6 +157,7 @@ public class SonglibController {
 				}
 			}			
 		}
+		
 		//sort list at the end
 		sort();
 	}
