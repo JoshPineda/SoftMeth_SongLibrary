@@ -11,7 +11,7 @@ public class Song {
 
 	private String Name;
 	private String Artist;
-	private int Year; 
+	private int Year = -1; 
 	private String Album;
 	
 	//int used to determine if detail is to be added to the toString
@@ -83,14 +83,22 @@ public class Song {
 	}
 	public void setYear(int year) {
 		this.Year = year;
-		setYPresent(1);
+		if(year == -1) {
+			setYPresent(0);
+		}else {
+			setYPresent(1);
+		}
 	}
 	public String getAlbum() {
 		return Album;
 	}
 	public void setAlbum(String album) {
 		this.Album = album;
-		setAPresent(1);
+		if(Album.equals("")) {
+			setAPresent(0);
+		}else {
+			setAPresent(1);
+		}
 	}
 	public int getDetail(){
 		return detail;

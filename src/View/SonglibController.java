@@ -44,36 +44,36 @@ public class SonglibController {
 				new Song("test","5","2012")
 				);
 		
-		
-		//this sort call might not be necessary
 		sort();
 		
 		SongLibrary.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>(){
 			@Override
 			public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
-				//System.out.println("old= "+oldValue);
-				//System.out.println("new= "+newValue);
+				//change detail ints for old and new selections
 				if(obslist.contains(oldValue)){
 					oldValue.setDetail(0);
-					//obslist.set(oldIndex, oldValue);
 				}
 				if(obslist.contains(newValue)){
 					newValue.setDetail(1);
-					//obslist.set(SongLibrary.getSelectionModel().getSelectedIndex(), newValue);
-					
 				}
-				//oldIndex = SongLibrary.getSelectionModel().getSelectedIndex();
+				//refresh list view
 				SongLibrary.refresh();
+				
+				//set the text fields to newValue
+				String name = newValue.getName();
+				Song_title.setText(name);
+				Artist.setText(newValue.getArtist());
+				int year = newValue.getYear();
+				if(year != -1) {
+					Year.setText(String.valueOf(year));
+				}else {
+					Year.setText("");
+				}
+				Album.setText(newValue.getAlbum());
 			} 
 		});
 		
 		SongLibrary.setItems(obslist);
-		
-		/*SongLibrary.getSelectionModel()
-			.selectedIndexProperty()
-			.addListener(
-				(obslist)
-				);*/
 	}
 	public void sort(){
 		Comparator<Song> comparator = Comparator.comparing(Song::getNameLower).thenComparing(Song::getArtistLower);
@@ -132,8 +132,40 @@ public class SonglibController {
 	}
 	public void editSongHandler(){
 		
-		
-		
+		int selectedIndex = SongLibrary.getSelectionModel().getSelectedIndex();
+		if(selectedIndex == -1) {
+			//error dialog "no selection made yet"
+		}else{
+			//do the edit
+			if (Song_title.getText().equals("") || Artist.getText().equals("")) {
+				showError(2,Song_title.getText(),Artist.getText());
+			}else{
+				try{
+					int year = Integer.parseInt(Year.getText());
+					if(confirmAction(1,Song_title.getText(),Artist.getText())) {
+						obslist.get(selectedIndex).setName(Song_title.getText());
+						obslist.get(selectedIndex).setArtist(Artist.getText());
+						obslist.get(selectedIndex).setYear(year);
+						obslist.get(selectedIndex).setAlbum(Album.getText());
+					}
+				}catch(NumberFormatException e){
+					if(Year.getText().equals("")) {
+						if(confirmAction(1,Song_title.getText(),Artist.getText())) {
+							obslist.get(selectedIndex).setName(Song_title.getText());
+							obslist.get(selectedIndex).setArtist(Artist.getText());
+							obslist.get(selectedIndex).setYear(-1);
+							//System.out.println(Album.getText());
+							obslist.get(selectedIndex).setAlbum(Album.getText());
+						}
+					}else {
+						showError(1,Song_title.getText(),Artist.getText());
+					}
+				}catch(Exception e){
+					//other unknown exceptions
+					//To-do
+				}
+			}			
+		}
 		//sort list at the end
 		sort();
 	}
