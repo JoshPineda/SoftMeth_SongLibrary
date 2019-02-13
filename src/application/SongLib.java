@@ -1,5 +1,8 @@
 package application;
 
+import java.io.File;
+import java.io.PrintWriter;
+
 /*
  * Joshua Pineda
  * John Strauser
@@ -39,10 +42,22 @@ public class SongLib extends Application{
 	}
 	@Override
 	public void stop() {
-		System.out.println("Save file here");
+		//System.out.println("Save file here");
 		//save file
 		obslist = songlibcontroller.getObslist();
-		System.out.println(obslist.get(1)+"");
+		//System.out.println(obslist.get(1)+"");
+		try{
+			File saveFile = new File("saveFile.txt");
+			PrintWriter writer = new PrintWriter(saveFile);
+			//loop through obslist and print here
+			int size = obslist.size();
+			for(int i=0; i<size; i++){
+				writer.println(obslist.get(i).saveString());
+			}
+			writer.close();
+		}catch(Exception e){
+			System.out.println("Error occured in file writing");
+		}
 	}
 	public static void main(String[] args) {
 		launch(args);

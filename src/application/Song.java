@@ -135,5 +135,14 @@ public class Song {
 		//return "Song [Name=" + Name + ", Artist=" + Artist + ", Year=" + Year + ", Album=" + Album + "]";
 		return outString;
 	}
-
+	public String saveString(){
+		String out = Name+"-"+Artist;
+		if(getYPresent()==1){
+			out += "-"+Year;
+		}else{
+			out += "-none";
+		}
+		out += "-"+Album;
+		return out;
+	}
 }

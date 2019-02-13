@@ -1,0 +1,5 @@
+ABC123-1-none-Artist
+song1-Artist1-2018-Album8
+Song1-Artist2-none-null
+Song3-Artist2-2019-Album2
+test-5-none-2012
