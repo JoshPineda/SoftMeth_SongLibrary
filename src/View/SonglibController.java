@@ -11,6 +11,7 @@ import application.Song;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -31,7 +32,7 @@ public class SonglibController {
 	@FXML TextField Album;
 
 	private ObservableList<Song> obslist;
-	private int oldIndex = 0;
+	//private int oldIndex = 0;
 	
 	public void start() {
 		obslist = FXCollections.observableArrayList(
@@ -49,16 +50,19 @@ public class SonglibController {
 		SongLibrary.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>(){
 			@Override
 			public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+				//System.out.println("old= "+oldValue);
+				//System.out.println("new= "+newValue);
 				if(obslist.contains(oldValue)){
 					oldValue.setDetail(0);
-					obslist.set(oldIndex, oldValue);
+					//obslist.set(oldIndex, oldValue);
 				}
 				if(obslist.contains(newValue)){
 					newValue.setDetail(1);
-					obslist.set(SongLibrary.getSelectionModel().getSelectedIndex(), newValue);
+					//obslist.set(SongLibrary.getSelectionModel().getSelectedIndex(), newValue);
+					
 				}
-				oldIndex = SongLibrary.getSelectionModel().getSelectedIndex();
-				
+				//oldIndex = SongLibrary.getSelectionModel().getSelectedIndex();
+				SongLibrary.refresh();
 			} 
 		});
 		
@@ -135,8 +139,7 @@ public class SonglibController {
 	public void deleteSongHandler(){
 		
 		int selectedIndex = SongLibrary.getSelectionModel().getSelectedIndex();
-		//unsupportedOperationException occurs here
-		obslist.remove(selectedIndex);
+		obslist.remove(selectedIndex, selectedIndex+1);
 		
 		//sort list at the end
 		//this sort might not be necessary
