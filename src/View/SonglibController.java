@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Optional;
 
 import application.Song;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -211,5 +212,8 @@ public class SonglibController {
 				alert.showAndWait();
 			
 		}
+	}
+	public ObservableList<Song> getObslist(){
+		return obslist;
 	}
 }

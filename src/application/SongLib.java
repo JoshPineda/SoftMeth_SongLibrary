@@ -7,13 +7,15 @@ package application;
 
 import View.SonglibController;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 
 public class SongLib extends Application{
-
+	private ObservableList<Song> obslist;
+	private SonglibController songlibcontroller;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -22,7 +24,7 @@ public class SongLib extends Application{
 			loader.setLocation(getClass().getResource("/view/songlib.fxml"));
 			GridPane root = (GridPane)loader.load();
 			
-			SonglibController songlibcontroller = loader.getController();
+			songlibcontroller = loader.getController();
 			songlibcontroller.start();
 			
 			
@@ -35,7 +37,13 @@ public class SongLib extends Application{
 			e.printStackTrace();
 		}
 	}
-	
+	@Override
+	public void stop() {
+		System.out.println("Save file here");
+		//save file
+		obslist = songlibcontroller.getObslist();
+		System.out.println(obslist.get(1)+"");
+	}
 	public static void main(String[] args) {
 		launch(args);
 	}
