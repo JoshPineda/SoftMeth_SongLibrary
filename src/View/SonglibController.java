@@ -40,31 +40,18 @@ public class SonglibController {
 	@FXML TextField Album;
 
 	private ObservableList<Song> obslist;
-	//private int oldIndex = 0;
 	private File saveFile;
 	
 	public void start() {
-		obslist = FXCollections.observableArrayList(
-				/*
-				new Song("Song1","Artist2"),
-				new Song("Song3", "Artist2",2019,"Album2"),
-				new Song("ABC123","1","Arbum"),
-				new Song("song1","Artist1",2018,"Album8"),
-				new Song("test","5","alb")*/
-				);
+		obslist = FXCollections.observableArrayList();
 		//load from file
 		try{
 			saveFile = new File("saveFile.txt");
 			BufferedReader br = new BufferedReader(new FileReader(saveFile));
-			System.out.println("About to enter for loop");
 			for(String line; (line = br.readLine()) != null; ){
-				//System.out.println("enter for loop");
 				StringTokenizer tokens = new StringTokenizer(line, "-");
-				//System.out.println("tokenizer made");
 				String name = tokens.nextToken();
-				//System.out.println("name = "+name);
 				String artist = tokens.nextToken();
-				//System.out.println("artist = "+artist);
 				String yearString = tokens.nextToken();
 				int year = -1;
 				if(!yearString.equals("none")){
@@ -74,14 +61,11 @@ public class SonglibController {
 						//handle parsing error
 					}
 				}
-				//System.out.println("year = "+year);
 				String album = tokens.nextToken();
-				//System.out.println("-"+album+"-");
 				if(album.equals("none")){
 					
 					album = "";
 				}
-				//System.out.println("album = "+album);
 				//build the song class and add to obslist
 				Song entry;
 				if(year == -1 && album.equals("")){
@@ -99,11 +83,12 @@ public class SonglibController {
 			}
 			br.close();
 		}catch(FileNotFoundException e){
-			System.out.println("File was not made yet, should make list empty");
+			//saveFile was not made yet so line 51 throws this
+			//not an error, just needs to be ignored
+			//code will continue with empty list now
 		}catch(Exception e){
-			System.out.println("Exception thrown: "+e);
+			System.out.println("Loading from saveFile.txt throws: "+e);
 		}
-		
 		
 		sort();
 		
@@ -124,6 +109,11 @@ public class SonglibController {
 		});
 		
 		SongLibrary.setItems(obslist);
+		
+		//assignment sheet says first item should be selected on startup
+		if(obslist.size() > 0){
+			SongLibrary.getSelectionModel().select(0);
+		}
 	}
 	public void sort(){
 		Comparator<Song> comparator = Comparator.comparing(Song::getNameLower).thenComparing(Song::getArtistLower);
@@ -148,7 +138,6 @@ public class SonglibController {
 		}else{
 			//if all 4 dialog boxes are filled
 			if(!Year.getText().equals("") && !Album.getText().equals("")){
-				System.out.println("All are filled");
 				//make sure only digits are in Year
 				try{
 					if (CheckDuplicate(Song_title.getText(),Artist.getText(),0)){
@@ -163,12 +152,10 @@ public class SonglibController {
 				}catch(NumberFormatException e){
 					showError(1,Song_title.getText(),Artist.getText());
 				}catch(Exception e){
-					//other unknown exceptions
-					//To-do
+					System.out.println("Attempting to add with all fields filled throws: "+e);
 				}
 			//if only Song and artist are filled
 			}else if(Year.getText().equals("") && Album.getText().equals("")){
-				System.out.println("Song and Artist filled");
 				if (CheckDuplicate(Song_title.getText(),Artist.getText(),0)){
 					showError(3,Song_title.getText(),Artist.getText());
 				}
@@ -179,7 +166,6 @@ public class SonglibController {
 				}
 			//all but year are filled
 			}else if(Year.getText().equals("")){
-				System.out.println("All but year are filled");
 				if (CheckDuplicate(Song_title.getText(),Artist.getText(),0)){
 					showError(3,Song_title.getText(),Artist.getText());
 				}
@@ -190,7 +176,6 @@ public class SonglibController {
 				}
 			//all but album are filled
 			}else{
-				System.out.println("All but Album are filled");
 				//make sure only digits are in Year
 				try{
 					if (CheckDuplicate(Song_title.getText(),Artist.getText(),0)){
@@ -204,8 +189,7 @@ public class SonglibController {
 				}catch(NumberFormatException e){
 					showError(1,Song_title.getText(),Artist.getText());
 				}catch(Exception e){
-					//other unknown exceptions
-					//To-do
+					System.out.println("Trying to add with all fields except Album filled throws: "+e);
 				}
 			}
 		}
@@ -221,8 +205,6 @@ public class SonglibController {
 		}else{
 			//do the edit
 			if (Song_title.getText().equals("") || Artist.getText().equals("")) {
-				//error, value to change to are not filled
-				//need new error code
 				showError(2,Song_title.getText(),Artist.getText());
 			}else{
 				try{
@@ -232,7 +214,7 @@ public class SonglibController {
 						showError(3,Song_title.getText(),Artist.getText());
 					}
 					else {
-						if(confirmAction(1,Song_title.getText(),Artist.getText())) {
+						if(confirmAction(2,Song_title.getText(),Artist.getText())) {
 							obslist.get(selectedIndex).setName(Song_title.getText());
 							obslist.get(selectedIndex).setArtist(Artist.getText());
 							obslist.get(selectedIndex).setYear(year);
@@ -246,7 +228,7 @@ public class SonglibController {
 							showError(3,Song_title.getText(),Artist.getText());
 						}
 						else {
-							if(confirmAction(1,Song_title.getText(),Artist.getText())) {
+							if(confirmAction(2,Song_title.getText(),Artist.getText())) {
 								obslist.get(selectedIndex).setName(Song_title.getText());
 								obslist.get(selectedIndex).setArtist(Artist.getText());
 								obslist.get(selectedIndex).setYear(-1);
@@ -257,8 +239,7 @@ public class SonglibController {
 						showError(1,Song_title.getText(),Artist.getText());
 					}
 				}catch(Exception e){
-					//other unknown exceptions
-					//To-do
+					System.out.println("Trying to edit throws: "+e);
 				}
 			}			
 		}
@@ -267,12 +248,10 @@ public class SonglibController {
 		sort();
 	}
 	public void deleteSongHandler(){
-		
 		int selectedIndex = SongLibrary.getSelectionModel().getSelectedIndex();
 		obslist.remove(selectedIndex, selectedIndex+1);
 		
 		//sort list at the end
-		//this sort might not be necessary
 		sort();
 	}
 	
@@ -298,7 +277,7 @@ public class SonglibController {
 				break;
 			//Edit
 			case 2:
-				alert.setHeaderText("You are about to edit " + Song_title + " by " + artist);
+				alert.setHeaderText("You are about to edit this song to" + Song_title + " by " + artist);
 				alert.setContentText("Are you sure?");
 				Optional<ButtonType> resultE = alert.showAndWait();
 				if (resultE.get() == ButtonType.OK){
@@ -343,6 +322,7 @@ public class SonglibController {
 				alert.setContentText("Error, Song \"" + Song_title + "\" by " + artist + " already exists in the library.");
 				alert.showAndWait();
 				break;
+				
 			
 		}
 	}

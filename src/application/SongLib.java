@@ -42,10 +42,8 @@ public class SongLib extends Application{
 	}
 	@Override
 	public void stop() {
-		//System.out.println("Save file here");
 		//save file
 		obslist = songlibcontroller.getObslist();
-		//System.out.println(obslist.get(1)+"");
 		try{
 			File saveFile = new File("saveFile.txt");
 			PrintWriter writer = new PrintWriter(saveFile);
@@ -56,7 +54,7 @@ public class SongLib extends Application{
 			}
 			writer.close();
 		}catch(Exception e){
-			System.out.println("Error occured in file writing");
+			System.out.println("File saving throws: "+e);
 		}
 	}
 	public static void main(String[] args) {
