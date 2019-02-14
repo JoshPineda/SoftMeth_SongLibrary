@@ -182,7 +182,7 @@ public class SonglibController {
 						showError(3,Song_title.getText(),Artist.getText());
 					}
 					else {
-						Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
+						Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()));
 						if(confirmAction(1,Song_title.getText(),Artist.getText()))
 							obslist.add(newsong);
 					}
