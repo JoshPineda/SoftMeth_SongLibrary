@@ -12,7 +12,7 @@ public class Song {
 	private String Name;
 	private String Artist;
 	private int Year = -1; 
-	private String Album;
+	private String Album = "";
 	
 	//int used to determine if detail is to be added to the toString
 	private int detail = 0;
@@ -142,7 +142,12 @@ public class Song {
 		}else{
 			out += "-none";
 		}
-		out += "-"+Album;
+		if(getAPresent() == 1) {
+			out += "-"+Album;
+		}else {
+			out += "-none";
+		}
+		
 		return out;
 	}
 }

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.StringTokenizer;
@@ -55,13 +56,15 @@ public class SonglibController {
 		try{
 			saveFile = new File("saveFile.txt");
 			BufferedReader br = new BufferedReader(new FileReader(saveFile));
+			System.out.println("About to enter for loop");
 			for(String line; (line = br.readLine()) != null; ){
+				//System.out.println("enter for loop");
 				StringTokenizer tokens = new StringTokenizer(line, "-");
-				//System.out.println("Name= "+tokens.nextToken());
+				//System.out.println("tokenizer made");
 				String name = tokens.nextToken();
-				//System.out.println("Artist= "+tokens.nextToken());
+				//System.out.println("name = "+name);
 				String artist = tokens.nextToken();
-				//System.out.println("Year= "+tokens.nextToken());
+				//System.out.println("artist = "+artist);
 				String yearString = tokens.nextToken();
 				int year = -1;
 				if(!yearString.equals("none")){
@@ -71,9 +74,14 @@ public class SonglibController {
 						//handle parsing error
 					}
 				}
-				//System.out.println("Album= "+tokens.nextToken());
+				//System.out.println("year = "+year);
 				String album = tokens.nextToken();
-				
+				//System.out.println("-"+album+"-");
+				if(album.equals("none")){
+					
+					album = "";
+				}
+				//System.out.println("album = "+album);
 				//build the song class and add to obslist
 				Song entry;
 				if(year == -1 && album.equals("")){
@@ -87,9 +95,13 @@ public class SonglibController {
 				}
 				
 				obslist.add(entry);
+				
 			}
+			br.close();
+		}catch(FileNotFoundException e){
+			System.out.println("File was not made yet, should make list empty");
 		}catch(Exception e){
-			System.out.println("Exception thrown");
+			System.out.println("Exception thrown: "+e);
 		}
 		
 		
@@ -118,28 +130,16 @@ public class SonglibController {
 		obslist.sort(comparator);
 	}
 	
-	public boolean CheckDuplicate(String Song_title, String Artist) throws IOException {
-		
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(saveFile));
-			String currentLine;
-			while ((currentLine = br.readLine()) != null) {
-				StringTokenizer tokens = new StringTokenizer(currentLine, "-");
-				String cline_title = tokens.nextToken();
-				String cline_artist = tokens.nextToken();
-				if (cline_title.equals(Song_title) && cline_artist.equals(Artist)) {
-					return true;
+	public boolean CheckDuplicate(String Song_title, String Artist, int edit){
+		for(int i=0; i<obslist.size();i++) {
+			if(Song_title.equals(obslist.get(i).getName()) && Artist.equals(obslist.get(i).getArtist())) {
+				if(edit == 1 && SongLibrary.getSelectionModel().getSelectedIndex() == i) {
+					return false;
 				}
+				return true;
 			}
-			
-		}
-		catch(IOException err) {
-			System.out.println("IO exception. Ending Program.");
-			System.exit(0);
 		}
 		return false;
-
-		
 	}
 	public void addSongHandler() {
 
@@ -151,7 +151,7 @@ public class SonglibController {
 				System.out.println("All are filled");
 				//make sure only digits are in Year
 				try{
-					if (CheckDuplicate(Song_title.getText(),Artist.getText())){
+					if (CheckDuplicate(Song_title.getText(),Artist.getText(),0)){
 						showError(3,Song_title.getText(),Artist.getText());
 					}
 					else {
@@ -169,44 +169,31 @@ public class SonglibController {
 			//if only Song and artist are filled
 			}else if(Year.getText().equals("") && Album.getText().equals("")){
 				System.out.println("Song and Artist filled");
-				try {
-					if (CheckDuplicate(Song_title.getText(),Artist.getText())){
-						showError(3,Song_title.getText(),Artist.getText());
-					}
-					else {
-						Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
-						if(confirmAction(1,Song_title.getText(),Artist.getText()))
-							obslist.add(newsong);
-					}
+				if (CheckDuplicate(Song_title.getText(),Artist.getText(),0)){
+					showError(3,Song_title.getText(),Artist.getText());
 				}
-				catch (IOException e) {
-						System.out.println("IO exception. Ending Program.");
-						System.exit(0);
+				else {
+					Song newsong = new Song(Song_title.getText(),Artist.getText());
+					if(confirmAction(1,Song_title.getText(),Artist.getText()))
+						obslist.add(newsong);
 				}
-
 			//all but year are filled
 			}else if(Year.getText().equals("")){
 				System.out.println("All but year are filled");
-				try {
-					if (CheckDuplicate(Song_title.getText(),Artist.getText())){
-						showError(3,Song_title.getText(),Artist.getText());
-					}
-					else {
-						Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
-						if(confirmAction(1,Song_title.getText(),Artist.getText()))
-							obslist.add(newsong);
-					}
+				if (CheckDuplicate(Song_title.getText(),Artist.getText(),0)){
+					showError(3,Song_title.getText(),Artist.getText());
 				}
-				catch (IOException e) {
-						System.out.println("IO exception. Ending Program.");
-						System.exit(0);
+				else {
+					Song newsong = new Song(Song_title.getText(),Artist.getText(),Album.getText());
+					if(confirmAction(1,Song_title.getText(),Artist.getText()))
+						obslist.add(newsong);
 				}
 			//all but album are filled
 			}else{
 				System.out.println("All but Album are filled");
 				//make sure only digits are in Year
 				try{
-					if (CheckDuplicate(Song_title.getText(),Artist.getText())){
+					if (CheckDuplicate(Song_title.getText(),Artist.getText(),0)){
 						showError(3,Song_title.getText(),Artist.getText());
 					}
 					else {
@@ -241,7 +228,7 @@ public class SonglibController {
 				try{
 					int year = Integer.parseInt(Year.getText());
 					//need new confirmation dialog for confirmation of change here
-					if (CheckDuplicate(Song_title.getText(),Artist.getText())) {
+					if (CheckDuplicate(Song_title.getText(),Artist.getText(),1)) {
 						showError(3,Song_title.getText(),Artist.getText());
 					}
 					else {
@@ -255,7 +242,7 @@ public class SonglibController {
 
 				}catch(NumberFormatException e){
 					if(Year.getText().equals("")) {
-						if (CheckDuplicate(Song_title.getText(),Artist.getText())) {
+						if (CheckDuplicate(Song_title.getText(),Artist.getText(),1)) {
 							showError(3,Song_title.getText(),Artist.getText());
 						}
 						else {

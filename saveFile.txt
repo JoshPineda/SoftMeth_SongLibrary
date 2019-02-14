@@ -1,5 +1,3 @@
-ABC123-1-2019-Album123
-Does-It Persist?-2019-The wquestion
-persistance-test-2019-it works
-Song3-Artist2-2019-Album2
-test-5-none-alb
+asda-asda-12-none
+asdf-as-12-none
+asdf-asdf-12-asdf
