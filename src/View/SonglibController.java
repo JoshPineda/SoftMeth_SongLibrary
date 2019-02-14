@@ -6,7 +6,9 @@ package View;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.StringTokenizer;
@@ -38,6 +40,7 @@ public class SonglibController {
 
 	private ObservableList<Song> obslist;
 	//private int oldIndex = 0;
+	private File saveFile;
 	
 	public void start() {
 		obslist = FXCollections.observableArrayList(
@@ -50,7 +53,7 @@ public class SonglibController {
 				);
 		//load from file
 		try{
-			File saveFile = new File("saveFile.txt");
+			saveFile = new File("saveFile.txt");
 			BufferedReader br = new BufferedReader(new FileReader(saveFile));
 			for(String line; (line = br.readLine()) != null; ){
 				StringTokenizer tokens = new StringTokenizer(line, "-");
@@ -104,6 +107,7 @@ public class SonglibController {
 				}
 				//refresh list view
 				SongLibrary.refresh();
+				
 			} 
 		});
 		
@@ -112,6 +116,30 @@ public class SonglibController {
 	public void sort(){
 		Comparator<Song> comparator = Comparator.comparing(Song::getNameLower).thenComparing(Song::getArtistLower);
 		obslist.sort(comparator);
+	}
+	
+	public boolean CheckDuplicate(String Song_title, String Artist) throws IOException {
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(saveFile));
+			String currentLine;
+			while ((currentLine = br.readLine()) != null) {
+				StringTokenizer tokens = new StringTokenizer(currentLine, "-");
+				String cline_title = tokens.nextToken();
+				String cline_artist = tokens.nextToken();
+				if (cline_title.equals(Song_title) && cline_artist.equals(Artist)) {
+					return true;
+				}
+			}
+			
+		}
+		catch(IOException err) {
+			System.out.println("IO exception. Ending Program.");
+			System.exit(0);
+		}
+		return false;
+
+		
 	}
 	public void addSongHandler() {
 
@@ -123,9 +151,15 @@ public class SonglibController {
 				System.out.println("All are filled");
 				//make sure only digits are in Year
 				try{
-					Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
-					if(confirmAction(1,Song_title.getText(),Artist.getText()))
-						obslist.add(newsong);
+					if (CheckDuplicate(Song_title.getText(),Artist.getText())){
+						showError(3,Song_title.getText(),Artist.getText());
+					}
+					else {
+						Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
+						if(confirmAction(1,Song_title.getText(),Artist.getText()))
+							obslist.add(newsong);
+					}
+			
 				}catch(NumberFormatException e){
 					showError(1,Song_title.getText(),Artist.getText());
 				}catch(Exception e){
@@ -135,23 +169,51 @@ public class SonglibController {
 			//if only Song and artist are filled
 			}else if(Year.getText().equals("") && Album.getText().equals("")){
 				System.out.println("Song and Artist filled");
-				Song newsong = new Song(Song_title.getText(),Artist.getText());
-				if(confirmAction(1,Song_title.getText(),Artist.getText()))
-					obslist.add(newsong);
+				try {
+					if (CheckDuplicate(Song_title.getText(),Artist.getText())){
+						showError(3,Song_title.getText(),Artist.getText());
+					}
+					else {
+						Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
+						if(confirmAction(1,Song_title.getText(),Artist.getText()))
+							obslist.add(newsong);
+					}
+				}
+				catch (IOException e) {
+						System.out.println("IO exception. Ending Program.");
+						System.exit(0);
+				}
+
 			//all but year are filled
 			}else if(Year.getText().equals("")){
 				System.out.println("All but year are filled");
-				Song newsong = new Song(Song_title.getText(),Artist.getText(),Album.getText());
-				if(confirmAction(1,Song_title.getText(),Artist.getText()))
-					obslist.add(newsong);
+				try {
+					if (CheckDuplicate(Song_title.getText(),Artist.getText())){
+						showError(3,Song_title.getText(),Artist.getText());
+					}
+					else {
+						Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
+						if(confirmAction(1,Song_title.getText(),Artist.getText()))
+							obslist.add(newsong);
+					}
+				}
+				catch (IOException e) {
+						System.out.println("IO exception. Ending Program.");
+						System.exit(0);
+				}
 			//all but album are filled
 			}else{
 				System.out.println("All but Album are filled");
 				//make sure only digits are in Year
 				try{
-					Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()));
-					if(confirmAction(1,Song_title.getText(),Artist.getText()))
-						obslist.add(newsong);
+					if (CheckDuplicate(Song_title.getText(),Artist.getText())){
+						showError(3,Song_title.getText(),Artist.getText());
+					}
+					else {
+						Song newsong = new Song(Song_title.getText(),Artist.getText(),Integer.parseInt(Year.getText()),Album.getText());
+						if(confirmAction(1,Song_title.getText(),Artist.getText()))
+							obslist.add(newsong);
+					}
 				}catch(NumberFormatException e){
 					showError(1,Song_title.getText(),Artist.getText());
 				}catch(Exception e){
@@ -164,7 +226,7 @@ public class SonglibController {
 		//sort list at the end
 		sort();
 	}
-	public void editSongHandler(){
+	public void editSongHandler() throws IOException{
 
 		int selectedIndex = SongLibrary.getSelectionModel().getSelectedIndex();
 		if(selectedIndex == -1) {
@@ -179,20 +241,30 @@ public class SonglibController {
 				try{
 					int year = Integer.parseInt(Year.getText());
 					//need new confirmation dialog for confirmation of change here
-					if(confirmAction(1,Song_title.getText(),Artist.getText())) {
-						obslist.get(selectedIndex).setName(Song_title.getText());
-						obslist.get(selectedIndex).setArtist(Artist.getText());
-						obslist.get(selectedIndex).setYear(year);
-						obslist.get(selectedIndex).setAlbum(Album.getText());
+					if (CheckDuplicate(Song_title.getText(),Artist.getText())) {
+						showError(3,Song_title.getText(),Artist.getText());
 					}
-				}catch(NumberFormatException e){
-					if(Year.getText().equals("")) {
-						//need new confirmation dialog for confirmation of change here
+					else {
 						if(confirmAction(1,Song_title.getText(),Artist.getText())) {
 							obslist.get(selectedIndex).setName(Song_title.getText());
 							obslist.get(selectedIndex).setArtist(Artist.getText());
-							obslist.get(selectedIndex).setYear(-1);
+							obslist.get(selectedIndex).setYear(year);
 							obslist.get(selectedIndex).setAlbum(Album.getText());
+						}
+					}
+
+				}catch(NumberFormatException e){
+					if(Year.getText().equals("")) {
+						if (CheckDuplicate(Song_title.getText(),Artist.getText())) {
+							showError(3,Song_title.getText(),Artist.getText());
+						}
+						else {
+							if(confirmAction(1,Song_title.getText(),Artist.getText())) {
+								obslist.get(selectedIndex).setName(Song_title.getText());
+								obslist.get(selectedIndex).setArtist(Artist.getText());
+								obslist.get(selectedIndex).setYear(-1);
+								obslist.get(selectedIndex).setAlbum(Album.getText());
+							}
 						}
 					}else {
 						showError(1,Song_title.getText(),Artist.getText());
@@ -269,17 +341,21 @@ public class SonglibController {
 	public void showError(int errorType,String Song_title, String artist) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Error");
+		alert.setHeaderText("There was an error!");
 		switch(errorType) {
 			
 			case 1:
-				alert.setHeaderText("There was an error!");
 				alert.setContentText("Error, Song \"" + Song_title + "\" by " + artist + " cannot have a year that is not an integer");
 				alert.showAndWait();
 				break;
 			case 2:
-				alert.setHeaderText("There was an error!");
 				alert.setContentText("Title and artist fields must be filled in");
 				alert.showAndWait();
+				break;
+			case 3:
+				alert.setContentText("Error, Song \"" + Song_title + "\" by " + artist + " already exists in the library.");
+				alert.showAndWait();
+				break;
 			
 		}
 	}

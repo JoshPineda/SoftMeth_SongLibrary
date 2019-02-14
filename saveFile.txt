@@ -1,6 +1,5 @@
-ABC123-1-none-Artist
+ABC123-1-2019-Album123
+Does-It Persist?-2019-The wquestion
 persistance-test-2019-it works
-song1-Artist1-2018-Album8
-Song1-Artist2-none-null
 Song3-Artist2-2019-Album2
 test-5-none-alb
