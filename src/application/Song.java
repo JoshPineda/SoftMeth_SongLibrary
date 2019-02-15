@@ -1,8 +1,5 @@
 package application;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 /*
  * Joshua Pineda
  * John Strauser
