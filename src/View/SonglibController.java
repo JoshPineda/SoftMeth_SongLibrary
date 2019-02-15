@@ -249,10 +249,10 @@ public class SonglibController {
 	}
 	public void deleteSongHandler(){
 		int selectedIndex = SongLibrary.getSelectionModel().getSelectedIndex();
-		obslist.remove(selectedIndex, selectedIndex+1);
-		
-		//sort list at the end
-		sort();
+		if(confirmAction(3, obslist.get(selectedIndex).getName(),obslist.get(selectedIndex).getArtist())) {
+			obslist.remove(selectedIndex, selectedIndex+1);
+			sort();
+		}
 	}
 	
 	/*Raises a dialog box

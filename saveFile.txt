@@ -1,3 +1,4 @@
-adfa-asdf-12-none
-adfa-asdffff-12-fff
-adfaaaa-asdffff-none-fff
+test1-artist-none-none
+test12-artist-1-none
+test12e-artist-1-album
+test12e4-artist-none-album
