@@ -1,5 +1,5 @@
 snew-snartis-122-newnenw
-test1-artist-none-none
 test12-artist-1-none
-test12e-artist-1-album
+test12e-artist-12-album
 test12e4-artist-none-album
+test12e4-artist1-none-album

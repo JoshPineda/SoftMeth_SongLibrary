@@ -79,7 +79,7 @@ public class SonglibController {
 			}
 			br.close();
 		}catch(FileNotFoundException e){
-			//saveFile was not made yet so line 51 throws this
+			//saveFile was not made yet so BufferedReader throws this
 			//not an error, just needs to be ignored
 			//code will continue with empty list now
 		}catch(Exception e){
@@ -97,6 +97,16 @@ public class SonglibController {
 				}
 				if(obslist.contains(newValue)){
 					newValue.setDetail(1);
+					
+					Song_title.setText(newValue.getName());
+					Artist.setText(newValue.getArtist());
+					int year = newValue.getYear();
+					if(year == -1) {
+						Year.setText("");
+					}else {
+						Year.setText(String.valueOf(year));
+					}
+					Album.setText(newValue.getAlbum());
 				}
 				//refresh list view
 				SongLibrary.refresh();
