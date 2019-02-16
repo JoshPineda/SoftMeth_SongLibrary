@@ -97,7 +97,7 @@ public class SonglibController {
 				}
 				if(obslist.contains(newValue)){
 					newValue.setDetail(1);
-					
+		/*
 					Song_title.setText(newValue.getName());
 					Artist.setText(newValue.getArtist());
 					int year = newValue.getYear();
@@ -106,7 +106,7 @@ public class SonglibController {
 					}else {
 						Year.setText(String.valueOf(year));
 					}
-					Album.setText(newValue.getAlbum());
+					Album.setText(newValue.getAlbum());*/
 				}
 				//refresh list view
 				SongLibrary.refresh();
