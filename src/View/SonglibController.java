@@ -128,10 +128,7 @@ public class SonglibController {
 	
 	public boolean CheckDuplicate(String Song_title, String Artist, int edit){
 		for(int i=0; i<obslist.size();i++) {
-			if(Song_title.equals(obslist.get(i).getName()) && Artist.equals(obslist.get(i).getArtist())) {
-				if(edit == 1 && SongLibrary.getSelectionModel().getSelectedIndex() == i) {
-					return false;
-				}
+			if(Song_title.equalsIgnoreCase(obslist.get(i).getName()) && Artist.equalsIgnoreCase(obslist.get(i).getArtist())) {
 				return true;
 			}
 		}
